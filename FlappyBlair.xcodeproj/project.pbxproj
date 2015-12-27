@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B36686F1C305C0100A96515 /* Blazer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 7B36686E1C305C0100A96515 /* Blazer.atlas */; settings = {ASSET_TAGS = (); }; };
+		7BF3A92B1C252BDC00034628 /* randomFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF3A92A1C252BDC00034628 /* randomFunction.swift */; settings = {ASSET_TAGS = (); }; };
 		7BF517531C1F8C2000C7E774 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF517521C1F8C2000C7E774 /* AppDelegate.swift */; };
 		7BF517551C1F8C2000C7E774 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 7BF517541C1F8C2000C7E774 /* GameScene.sks */; };
 		7BF517571C1F8C2000C7E774 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF517561C1F8C2000C7E774 /* GameScene.swift */; };
@@ -36,7 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7BF5174F1C1F8C2000C7E774 /* FlappyBlair.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappyBlair.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B36686E1C305C0100A96515 /* Blazer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Blazer.atlas; path = ../../Blazer.atlas; sourceTree = "<group>"; };
+		7BF3A92A1C252BDC00034628 /* randomFunction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = randomFunction.swift; sourceTree = "<group>"; };
+		7BF5174F1C1F8C2000C7E774 /* Flappy Blair.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flappy Blair.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BF517521C1F8C2000C7E774 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BF517541C1F8C2000C7E774 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		7BF517561C1F8C2000C7E774 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -91,7 +95,7 @@
 		7BF517501C1F8C2000C7E774 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7BF5174F1C1F8C2000C7E774 /* FlappyBlair.app */,
+				7BF5174F1C1F8C2000C7E774 /* Flappy Blair.app */,
 				7BF517671C1F8C2100C7E774 /* FlappyBlairTests.xctest */,
 				7BF517721C1F8C2100C7E774 /* FlappyBlairUITests.xctest */,
 			);
@@ -101,9 +105,11 @@
 		7BF517511C1F8C2000C7E774 /* FlappyBlair */ = {
 			isa = PBXGroup;
 			children = (
+				7B36686E1C305C0100A96515 /* Blazer.atlas */,
 				7BF517521C1F8C2000C7E774 /* AppDelegate.swift */,
 				7BF517541C1F8C2000C7E774 /* GameScene.sks */,
 				7BF517561C1F8C2000C7E774 /* GameScene.swift */,
+				7BF3A92A1C252BDC00034628 /* randomFunction.swift */,
 				7BF517581C1F8C2000C7E774 /* GameViewController.swift */,
 				7BF5175A1C1F8C2000C7E774 /* Main.storyboard */,
 				7BF5175D1C1F8C2100C7E774 /* Assets.xcassets */,
@@ -148,7 +154,7 @@
 			);
 			name = FlappyBlair;
 			productName = FlappyBlair;
-			productReference = 7BF5174F1C1F8C2000C7E774 /* FlappyBlair.app */;
+			productReference = 7BF5174F1C1F8C2000C7E774 /* Flappy Blair.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7BF517661C1F8C2100C7E774 /* FlappyBlairTests */ = {
@@ -198,6 +204,7 @@
 				TargetAttributes = {
 					7BF5174E1C1F8C1F00C7E774 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = 8V7W9DJD8T;
 					};
 					7BF517661C1F8C2100C7E774 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -236,6 +243,7 @@
 			files = (
 				7BF517551C1F8C2000C7E774 /* GameScene.sks in Resources */,
 				7BF517611C1F8C2100C7E774 /* LaunchScreen.storyboard in Resources */,
+				7B36686F1C305C0100A96515 /* Blazer.atlas in Resources */,
 				7BF5175E1C1F8C2100C7E774 /* Assets.xcassets in Resources */,
 				7BF5175C1C1F8C2000C7E774 /* Main.storyboard in Resources */,
 			);
@@ -264,6 +272,7 @@
 			files = (
 				7BF517571C1F8C2000C7E774 /* GameScene.swift in Sources */,
 				7BF517591C1F8C2000C7E774 /* GameViewController.swift in Sources */,
+				7BF3A92B1C252BDC00034628 /* randomFunction.swift in Sources */,
 				7BF517531C1F8C2000C7E774 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -406,10 +415,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = FlappyBlair/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mbhs.spc.FlappyBlair;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SPC.com.mbhs.spc.flappyblair;
+				PRODUCT_NAME = "Flappy Blair";
 			};
 			name = Debug;
 		};
@@ -417,10 +428,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = FlappyBlair/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mbhs.spc.FlappyBlair;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SPC.com.mbhs.spc.flappyblair;
+				PRODUCT_NAME = "Flappy Blair";
 			};
 			name = Release;
 		};
@@ -493,6 +506,7 @@
 				7BF5177D1C1F8C2100C7E774 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BF5177E1C1F8C2100C7E774 /* Build configuration list for PBXNativeTarget "FlappyBlairTests" */ = {
 			isa = XCConfigurationList;
@@ -501,6 +515,7 @@
 				7BF517801C1F8C2100C7E774 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7BF517811C1F8C2100C7E774 /* Build configuration list for PBXNativeTarget "FlappyBlairUITests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +524,7 @@
 				7BF517831C1F8C2100C7E774 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

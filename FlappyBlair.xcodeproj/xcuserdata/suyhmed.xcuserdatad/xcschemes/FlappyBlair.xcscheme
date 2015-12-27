@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7BF5174E1C1F8C1F00C7E774"
-               BuildableName = "FlappyBlair.app"
+               BuildableName = "Flappy Blair.app"
                BlueprintName = "FlappyBlair"
                ReferencedContainer = "container:FlappyBlair.xcodeproj">
             </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7BF5174E1C1F8C1F00C7E774"
-            BuildableName = "FlappyBlair.app"
+            BuildableName = "Flappy Blair.app"
             BlueprintName = "FlappyBlair"
             ReferencedContainer = "container:FlappyBlair.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7BF5174E1C1F8C1F00C7E774"
-            BuildableName = "FlappyBlair.app"
+            BuildableName = "Flappy Blair.app"
             BlueprintName = "FlappyBlair"
             ReferencedContainer = "container:FlappyBlair.xcodeproj">
          </BuildableReference>
@@ -95,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7BF5174E1C1F8C1F00C7E774"
-            BuildableName = "FlappyBlair.app"
+            BuildableName = "Flappy Blair.app"
             BlueprintName = "FlappyBlair"
             ReferencedContainer = "container:FlappyBlair.xcodeproj">
          </BuildableReference>

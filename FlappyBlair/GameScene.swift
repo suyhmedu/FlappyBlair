@@ -8,20 +8,11 @@
 
 import SpriteKit
 
-struct PhysicsCatagory {
-    
-    static let Background: UInt32 = 0x1 << 0
-    static let Blazer: UInt32 = 0x1 << 1
-    static let Ground: UInt32 = 0x1 << 2
-    static let Tower: UInt32 = 0x1 << 3
-    static let Score: UInt32 = 0x1 << 4
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Score variables
+    var scoreLabelNode = SKLabelNode()
     var score = NSInteger()
-    var scoreLabelNode:SKLabelNode!
     var moving:SKNode!
     var canRestart = false
     
@@ -38,6 +29,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Blazer Animation
     var BlazerTextureAtlas = SKTextureAtlas()
     var BlazerArray = [SKTexture]()
+    
+    //Physics Category
+    let categoryBlazer: UInt32 = 1 << 0
+    let categoryGround: UInt32 = 1 << 1
+    let categoryTower: UInt32 = 1 << 2
+    let categoryScore: UInt32 = 1 << 3
     
     
     override func didMoveToView(view: SKView) {
@@ -64,22 +61,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Background.zPosition = 0
         self.addChild(Background)
         
-        
-        
-        //Gound Image Layout
-        Ground = SKSpriteNode(imageNamed: "Ground")
-        Ground.setScale(1.5)
-        Ground.position = CGPoint(x: self.frame.width / 2, y: 0 + Ground.frame.height / 2)
-        
-        Ground.physicsBody = SKPhysicsBody(rectangleOfSize: Ground.size)
-        Ground.physicsBody?.categoryBitMask = PhysicsCatagory.Ground
-        Ground.physicsBody?.collisionBitMask = PhysicsCatagory.Blazer
-        Ground.physicsBody?.contactTestBitMask = PhysicsCatagory.Blazer
-        Ground.physicsBody?.affectedByGravity = false
-        Ground.physicsBody?.dynamic = false
-        Ground.zPosition = 3
-        self.addChild(Ground)
-        
         //Blazer(Bird) - Blazer Animation
         
         BlazerTextureAtlas = SKTextureAtlas(named: "Blazer")
@@ -95,14 +76,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Blazer.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(BlazerArray, timePerFrame: 0.1)))
         
         Blazer.physicsBody = SKPhysicsBody(rectangleOfSize: Blazer.size)
-        Blazer.physicsBody?.categoryBitMask = PhysicsCatagory.Blazer
-        Blazer.physicsBody?.collisionBitMask = PhysicsCatagory.Ground | PhysicsCatagory.Tower
-        Blazer.physicsBody?.contactTestBitMask = PhysicsCatagory.Ground | PhysicsCatagory.Tower
+        Blazer.physicsBody?.categoryBitMask = categoryBlazer
+        Blazer.physicsBody?.collisionBitMask = categoryGround | categoryTower
+        Blazer.physicsBody?.contactTestBitMask = categoryGround | categoryTower
         Blazer.physicsBody?.affectedByGravity = false
         Blazer.physicsBody?.dynamic = true
         Blazer.physicsBody?.allowsRotation = false
         Blazer.zPosition = 2
         self.addChild(Blazer)
+        
+        //Gound Image Layout
+        Ground = SKSpriteNode(imageNamed: "Ground")
+        Ground.setScale(1.5)
+        Ground.position = CGPoint(x: self.frame.width / 2, y: 0 + Ground.frame.height / 2)
+        
+        Ground.physicsBody = SKPhysicsBody(rectangleOfSize: Ground.size)
+        Ground.physicsBody?.categoryBitMask = categoryGround
+        Ground.physicsBody?.affectedByGravity = false
+        Ground.physicsBody?.dynamic = false
+        Ground.zPosition = 3
+        self.addChild(Ground)
+        
         
         // Initialize label and create a label which holds the score
         score = 0
@@ -110,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabelNode.fontSize = 80
         scoreLabelNode.position = CGPoint( x: self.frame.midX, y: 6 * self.frame.size.height / 7 )
         scoreLabelNode.zPosition = 100
-        scoreLabelNode.text = String(score)
+        scoreLabelNode.text = "\(score)"
         self.addChild(scoreLabelNode)
         
         
@@ -126,8 +120,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let spawn = SKAction.runBlock({
                 () in
                 self.createTowers()
-                
             })
+            
             let delay = SKAction.waitForDuration(2.0)
             let spawnDelay = SKAction.sequence([spawn, delay])
             let spawnDelayForever = SKAction.repeatActionForever(spawnDelay)
@@ -154,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func resetScene (){
         // Move bird to original position and reset velocity
         Blazer.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-        Blazer.physicsBody?.collisionBitMask = PhysicsCatagory.Ground | PhysicsCatagory.Tower
+        Blazer.physicsBody?.collisionBitMask = categoryGround | categoryTower
         Blazer.zRotation = 0.0
         Blazer.physicsBody?.velocity = CGVector( dx: 0, dy: 0 )
         Blazer.speed = 1.0
@@ -167,8 +161,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Reset score
-        score = 0
-        scoreLabelNode.text = String(score)
+        score = 0;
+        scoreLabelNode.text = "\(score)"
         
         // Restart animation
         moving.speed = 1
@@ -186,16 +180,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         btmTower.setScale(0.5)
         
         topTower.physicsBody = SKPhysicsBody(rectangleOfSize: topTower.size)
-        topTower.physicsBody?.categoryBitMask = PhysicsCatagory.Tower
-        topTower.physicsBody?.collisionBitMask = PhysicsCatagory.Blazer
-        topTower.physicsBody?.contactTestBitMask = PhysicsCatagory.Blazer
+        topTower.physicsBody?.categoryBitMask = categoryTower
+        topTower.physicsBody?.collisionBitMask = categoryBlazer
+        topTower.physicsBody?.contactTestBitMask = categoryBlazer
         topTower.physicsBody?.dynamic = false
         topTower.physicsBody?.affectedByGravity = false
         
         btmTower.physicsBody = SKPhysicsBody(rectangleOfSize: btmTower.size)
-        btmTower.physicsBody?.categoryBitMask = PhysicsCatagory.Tower
-        btmTower.physicsBody?.collisionBitMask = PhysicsCatagory.Blazer
-        btmTower.physicsBody?.contactTestBitMask = PhysicsCatagory.Blazer
+        btmTower.physicsBody?.categoryBitMask = categoryTower
+        btmTower.physicsBody?.collisionBitMask = categoryBlazer
+        btmTower.physicsBody?.contactTestBitMask = categoryBlazer
         btmTower.physicsBody?.dynamic = false
         btmTower.physicsBody?.affectedByGravity = false
         
@@ -210,18 +204,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         towerPair.position.y = towerPair.position.y + randomPosition
         
         let contactNode = SKNode()
-        contactNode.position = CGPoint( x: btmTower.size.width + Blazer.size.width / 2, y: self.frame.midY )
+        contactNode.position = CGPoint( x: topTower.size.width + Blazer.size.width / 2, y: self.frame.midY )
         contactNode.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize( width: topTower.size.width, height: self.frame.size.height ))
         contactNode.physicsBody?.dynamic = false
-        contactNode.physicsBody?.categoryBitMask = PhysicsCatagory.Score
-        contactNode.physicsBody?.contactTestBitMask = PhysicsCatagory.Blazer
+        contactNode.physicsBody?.categoryBitMask = categoryScore
+        contactNode.physicsBody?.contactTestBitMask = categoryBlazer
         towerPair.addChild(contactNode)
         
         towerPair.runAction(moveAndRemove)
         towers.addChild(towerPair)
         
     }
-
+    
     
     // Velocity of Blazer going up and down
     func clamp(min: CGFloat, max: CGFloat, value: CGFloat) -> CGFloat {
@@ -238,12 +232,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Blazer.zRotation = self.clamp( -1, max: 0.5, value: Blazer.physicsBody!.velocity.dy * ( Blazer.physicsBody!.velocity.dy < 0 ? 0.003 : 0.001 ) )
     }
     func didBeginContact(contact: SKPhysicsContact){
-        if moving.speed > 0 {
-            if (contact.bodyA.categoryBitMask & PhysicsCatagory.Score) == PhysicsCatagory.Score || (contact.bodyB.categoryBitMask & PhysicsCatagory.Score) == PhysicsCatagory.Score{
+        if (moving.speed > 0) {
+            if( ( contact.bodyA.categoryBitMask & categoryScore ) == categoryScore || ( contact.bodyB.categoryBitMask & categoryScore ) == categoryScore ) {
                 
-                // Bird has contact with score entity
-                score++
-                scoreLabelNode.text = String(score)
+                score++;
+                scoreLabelNode.text = "\(score)"
                 
                 // Add a little visual feedback for the score increment
                 scoreLabelNode.runAction(SKAction.sequence([
@@ -255,8 +248,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 moving.speed = 0
                 
-                Blazer.physicsBody?.collisionBitMask = PhysicsCatagory.Ground
-                Blazer.runAction(SKAction.rotateByAngle(CGFloat(M_PI) * CGFloat(Blazer.position.y) * 0.01, duration:1), completion:{self.Blazer.speed = 0 })
+                Blazer.physicsBody?.collisionBitMask = categoryGround
                 
                 //Flash background if contact is detected
                 self.removeActionForKey("flash")

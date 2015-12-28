@@ -101,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Initialize label and create a label which holds the score
         score = 0
         scoreLabelNode = SKLabelNode(fontNamed:"Chalkduster")
-        scoreLabelNode.fontSize = 80
+        scoreLabelNode.fontSize = 100
         scoreLabelNode.position = CGPoint( x: self.frame.midX, y: 6 * self.frame.size.height / 7 )
         scoreLabelNode.zPosition = 100
         scoreLabelNode.text = "\(score)"
@@ -161,7 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Reset score
-        score = 0;
+        score = 0
         scoreLabelNode.text = "\(score)"
         
         // Restart animation
@@ -244,8 +244,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     SKAction.scaleTo(1.0, duration:NSTimeInterval(0.1))
                     ]))
                 
-            } else{
-                
+            } else {
+    
                 moving.speed = 0
                 
                 Blazer.physicsBody?.collisionBitMask = categoryGround

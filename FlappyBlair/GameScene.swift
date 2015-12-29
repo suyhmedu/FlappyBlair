@@ -89,7 +89,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Ground = SKSpriteNode(imageNamed: "Ground")
         Ground.setScale(1.5)
         Ground.position = CGPoint(x: self.frame.width / 2, y: 0 + Ground.frame.height / 2)
-        
         Ground.physicsBody = SKPhysicsBody(rectangleOfSize: Ground.size)
         Ground.physicsBody?.categoryBitMask = categoryGround
         Ground.physicsBody?.affectedByGravity = false
@@ -199,13 +198,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         towerPair.addChild(btmTower)
         
         towerPair.zPosition = 1
-        
+    
         let randomPosition = CGFloat.random(min: -200, max: 200)
         towerPair.position.y = towerPair.position.y + randomPosition
         
         let contactNode = SKNode()
         contactNode.position = CGPoint( x: topTower.size.width + Blazer.size.width / 2, y: self.frame.midY )
-        contactNode.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize( width: topTower.size.width, height: self.frame.size.height ))
+        contactNode.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize( width: btmTower.size.width, height: self.frame.size.height ))
         contactNode.physicsBody?.dynamic = false
         contactNode.physicsBody?.categoryBitMask = categoryScore
         contactNode.physicsBody?.contactTestBitMask = categoryBlazer

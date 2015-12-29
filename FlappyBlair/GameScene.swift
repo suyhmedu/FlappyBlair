@@ -51,30 +51,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createTowers()
         
         //Background stuff
-        
         // setup background color
         skyColor = SKColor(red: 81.0/255.0, green: 192.0/255.0, blue: 201.0/255.0, alpha: 1.0)
         self.backgroundColor = skyColor
-        
         Background = SKSpriteNode(imageNamed: "Background")
         Background.position = CGPoint(x: self.frame.width / 2, y: 0 + Background.frame.height / 2)
         Background.zPosition = 0
         self.addChild(Background)
         
         //Blazer(Bird) - Blazer Animation
-        
         BlazerTextureAtlas = SKTextureAtlas(named: "Blazer")
         for i in 1...BlazerTextureAtlas.textureNames.count{
             let Name = "Devil_\(i).png"
             BlazerArray.append(SKTexture(imageNamed: Name))
         }
-        
-        //Blazer Animation
         Blazer = SKSpriteNode(imageNamed: BlazerTextureAtlas.textureNames[1])
         Blazer.size = CGSize(width:60, height: 35)
         Blazer.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         Blazer.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(BlazerArray, timePerFrame: 0.1)))
-        
         Blazer.physicsBody = SKPhysicsBody(rectangleOfSize: Blazer.size)
         Blazer.physicsBody?.categoryBitMask = categoryBlazer
         Blazer.physicsBody?.collisionBitMask = categoryGround | categoryTower
@@ -96,21 +90,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Ground.zPosition = 3
         self.addChild(Ground)
         
-        
         // Initialize label and create a label which holds the score
         score = 0
         scoreLabelNode = SKLabelNode(fontNamed:"Chalkduster")
         scoreLabelNode.fontSize = 100
         scoreLabelNode.position = CGPoint( x: self.frame.midX, y: 6 * self.frame.size.height / 7 )
         scoreLabelNode.zPosition = 100
-        scoreLabelNode.text = "\(score)"
+        scoreLabelNode.text = String(score)
         self.addChild(scoreLabelNode)
-        
-        
     }
-    
-    
-    
+
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //What makes the Blazer jump with the touch
         if(gameStarted == false){
@@ -144,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
+    
     func resetScene (){
         // Move bird to original position and reset velocity
         Blazer.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
@@ -161,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Reset score
         score = 0
-        scoreLabelNode.text = "\(score)"
+        scoreLabelNode.text = String(score)
         
         // Restart animation
         moving.speed = 1
@@ -180,31 +170,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         topTower.physicsBody = SKPhysicsBody(rectangleOfSize: topTower.size)
         topTower.physicsBody?.categoryBitMask = categoryTower
-        topTower.physicsBody?.collisionBitMask = categoryBlazer
         topTower.physicsBody?.contactTestBitMask = categoryBlazer
         topTower.physicsBody?.dynamic = false
-        topTower.physicsBody?.affectedByGravity = false
+        topTower.zRotation = CGFloat(M_PI)
+        towerPair.addChild(topTower)
         
         btmTower.physicsBody = SKPhysicsBody(rectangleOfSize: btmTower.size)
         btmTower.physicsBody?.categoryBitMask = categoryTower
-        btmTower.physicsBody?.collisionBitMask = categoryBlazer
         btmTower.physicsBody?.contactTestBitMask = categoryBlazer
         btmTower.physicsBody?.dynamic = false
-        btmTower.physicsBody?.affectedByGravity = false
-        
-        topTower.zRotation = CGFloat(M_PI)
-        
-        towerPair.addChild(topTower)
         towerPair.addChild(btmTower)
         
         towerPair.zPosition = 1
-    
+        
         let randomPosition = CGFloat.random(min: -200, max: 200)
         towerPair.position.y = towerPair.position.y + randomPosition
         
         let contactNode = SKNode()
-        contactNode.position = CGPoint( x: topTower.size.width + Blazer.size.width / 2, y: self.frame.midY )
-        contactNode.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize( width: btmTower.size.width, height: self.frame.size.height ))
+        contactNode.position = CGPoint(x: self.frame.width, y: self.frame.height / 2)
+        contactNode.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: topTower.size.width, height: self.frame.size.height))
         contactNode.physicsBody?.dynamic = false
         contactNode.physicsBody?.categoryBitMask = categoryScore
         contactNode.physicsBody?.contactTestBitMask = categoryBlazer
@@ -214,7 +198,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         towers.addChild(towerPair)
         
     }
-    
     
     // Velocity of Blazer going up and down
     func clamp(min: CGFloat, max: CGFloat, value: CGFloat) -> CGFloat {
@@ -230,12 +213,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         Blazer.zRotation = self.clamp( -1, max: 0.5, value: Blazer.physicsBody!.velocity.dy * ( Blazer.physicsBody!.velocity.dy < 0 ? 0.003 : 0.001 ) )
     }
+    
     func didBeginContact(contact: SKPhysicsContact){
         if (moving.speed > 0) {
-            if( ( contact.bodyA.categoryBitMask & categoryScore ) == categoryScore || ( contact.bodyB.categoryBitMask & categoryScore ) == categoryScore ) {
+            if((contact.bodyA.categoryBitMask & categoryScore) == categoryScore || (contact.bodyB.categoryBitMask & categoryScore) == categoryScore) {
                 
-                score++;
-                scoreLabelNode.text = "\(score)"
+                score++
+                scoreLabelNode.text = String(score)
                 
                 // Add a little visual feedback for the score increment
                 scoreLabelNode.runAction(SKAction.sequence([
@@ -244,9 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ]))
                 
             } else {
-    
                 moving.speed = 0
-                
                 Blazer.physicsBody?.collisionBitMask = categoryGround
                 
                 //Flash background if contact is detected

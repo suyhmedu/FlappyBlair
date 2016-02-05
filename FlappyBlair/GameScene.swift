@@ -115,6 +115,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabelNode.zPosition = 100
         scoreLabelNode.text = String(score)
         self.addChild(scoreLabelNode)
+        
+        self.addChild(gameOverPage)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -229,7 +231,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverPage.addChild(gameOver)
         
         
-        self.addChild(gameOverPage)
+        //self.addChild(gameOverPage)
         
         //Score Box - score & best score
         

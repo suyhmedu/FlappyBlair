@@ -20,11 +20,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var Ground = SKSpriteNode()
     var Blazer = SKSpriteNode()
+    var tapTapStuff = SKNode()
+    var tapTap = SKSpriteNode()
     var towerPair = SKNode()
     var towers = SKNode()
     var moveAndRemove = SKAction()
     var gameStarted = Bool()
     var Background = SKSpriteNode()
+    
+    //Display Score Screen
+    var gameOverPage = SKNode()
+    var gameOver = SKSpriteNode()
+    var playButton = SKSpriteNode()
+    var leaderboard = SKSpriteNode()
+    var displayScoreBoard = SKSpriteNode()
     
     //Blazer Animation
     var BlazerTextureAtlas = SKTextureAtlas()
@@ -35,7 +44,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let categoryGround: UInt32 = 1 << 1
     let categoryTower: UInt32 = 1 << 2
     let categoryScore: UInt32 = 1 << 3
-    
     
     override func didMoveToView(view: SKView) {
         
@@ -50,8 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         createTowers()
         
-        //Background stuff
-        // setup background color
+        //Background stuff - background color
         skyColor = SKColor(red: 81.0/255.0, green: 192.0/255.0, blue: 201.0/255.0, alpha: 1.0)
         self.backgroundColor = skyColor
         Background = SKSpriteNode(imageNamed: "Background")
@@ -61,10 +68,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Blazer(Bird) - Blazer Animation
         BlazerTextureAtlas = SKTextureAtlas(named: "Blazer")
+        
         for i in 1...BlazerTextureAtlas.textureNames.count{
             let Name = "Devil_\(i).png"
             BlazerArray.append(SKTexture(imageNamed: Name))
         }
+        
         Blazer = SKSpriteNode(imageNamed: BlazerTextureAtlas.textureNames[1])
         Blazer.size = CGSize(width:60, height: 35)
         Blazer.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
@@ -78,6 +87,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Blazer.physicsBody?.allowsRotation = false
         Blazer.zPosition = 2
         self.addChild(Blazer)
+        
+        //Get Ready & Tap Tap - Image
+        tapTap = SKSpriteNode(imageNamed: "tapTap")
+        tapTap.position = CGPoint(x: self.frame.width / 2, y: 100 + self.frame.height / 2 )
+        tapTap.physicsBody?.affectedByGravity = false
+        tapTap.physicsBody?.dynamic = false
+        tapTapStuff.addChild(tapTap)
+        self.addChild(tapTapStuff)
         
         //Gound Image Layout
         Ground = SKSpriteNode(imageNamed: "Ground")
@@ -93,21 +110,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Initialize label and create a label which holds the score
         score = 0
         scoreLabelNode = SKLabelNode(fontNamed:"Chalkduster")
-        scoreLabelNode.fontSize = 100
+        scoreLabelNode.fontSize = 80
         scoreLabelNode.position = CGPoint( x: self.frame.midX, y: 6 * self.frame.size.height / 7 )
         scoreLabelNode.zPosition = 100
         scoreLabelNode.text = String(score)
         self.addChild(scoreLabelNode)
     }
-
+    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //What makes the Blazer jump with the touch
         if(gameStarted == false){
+            
             gameStarted = true
             Blazer.physicsBody?.affectedByGravity = true
             let spawn = SKAction.runBlock({
                 () in
+                //Send in the Towers
                 self.createTowers()
+                
+                //Remove the Tutorial
+                self.tapTapStuff.removeAllChildren()
+                
             })
             
             let delay = SKAction.waitForDuration(2.0)
@@ -116,45 +139,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.runAction(spawnDelayForever)
             
             let distance = CGFloat(self.frame.width + towers.frame.width)
-            let movePipes = SKAction.moveByX(-distance, y: 0, duration: NSTimeInterval(0.01 * distance))
+            let movePipes = SKAction.moveByX(-distance, y: 0, duration: NSTimeInterval(0.009 * distance))
             let removePipes = SKAction.removeFromParent()
             moveAndRemove = SKAction.sequence([movePipes, removePipes])
             
             Blazer.physicsBody?.velocity = CGVectorMake(0,0)
-            Blazer.physicsBody?.applyImpulse(CGVectorMake(0,30))
+            Blazer.physicsBody?.applyImpulse(CGVectorMake(0,45))
             
         }else {
             Blazer.physicsBody?.velocity = CGVectorMake(0,0)
-            Blazer.physicsBody?.applyImpulse(CGVectorMake(0,30))
+            Blazer.physicsBody?.applyImpulse(CGVectorMake(0,45))
         }
         
         if canRestart {
             self.resetScene()
         }
         
-    }
-    
-    func resetScene (){
-        // Move bird to original position and reset velocity
-        Blazer.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-        Blazer.physicsBody?.collisionBitMask = categoryGround | categoryTower
-        Blazer.zRotation = 0.0
-        Blazer.physicsBody?.velocity = CGVector( dx: 0, dy: 0 )
-        Blazer.speed = 1.0
-        
-        // Remove all existing towers
-        towers.removeAllChildren()
-        
-        // Reset _canRestart
-        canRestart = false
-        
-        
-        // Reset score
-        score = 0
-        scoreLabelNode.text = String(score)
-        
-        // Restart animation
-        moving.speed = 1
     }
     
     func createTowers(){
@@ -214,6 +214,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Blazer.zRotation = self.clamp( -1, max: 0.5, value: Blazer.physicsBody!.velocity.dy * ( Blazer.physicsBody!.velocity.dy < 0 ? 0.003 : 0.001 ) )
     }
     
+    //This method will display the score once the game is over
+    // TODO: Add Menu , Add Sounds, Add Music, Add Leaderboard, Add Ads, Get Money!!!
+    func displayScore(){
+        //Play Button that runs restart method
+        
+        
+        //Show "Game Over"
+        gameOver = SKSpriteNode(imageNamed: "gameOver")
+        gameOver.position = CGPoint(x: self.frame.width / 2, y: 200 + self.frame.height / 2 )
+        gameOver.physicsBody?.affectedByGravity = false
+        gameOver.physicsBody?.dynamic = false
+        gameOver.zPosition = 4
+        gameOverPage.addChild(gameOver)
+        
+        
+        self.addChild(gameOverPage)
+        
+        //Score Box - score & best score
+        
+        //Leaderboard
+        
+    }
+    
+    func resetScene (){
+        // Move bird to original position and reset velocity
+        Blazer.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        Blazer.physicsBody?.collisionBitMask = categoryGround | categoryTower
+        Blazer.zRotation = 0.0
+        Blazer.physicsBody?.velocity = CGVector( dx: 0, dy: 0 )
+        Blazer.speed = 1.0
+        
+        // Remove all existing towers
+        towers.removeAllChildren()
+        
+        //add tapTap Tutorial
+        // tapTapStuff.addChild(tapTap)
+        
+        //Remove gameOverPage
+        gameOverPage.removeAllChildren()
+        
+        // Reset _canRestart
+        canRestart = false
+        
+        
+        // Reset score
+        score = 0
+        scoreLabelNode.text = String(score)
+        
+        // Restart animation
+        moving.speed = 1
+    }
+    
     func didBeginContact(contact: SKPhysicsContact){
         if (moving.speed > 0) {
             if((contact.bodyA.categoryBitMask & categoryScore) == categoryScore || (contact.bodyB.categoryBitMask & categoryScore) == categoryScore) {
@@ -230,6 +282,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 moving.speed = 0
                 Blazer.physicsBody?.collisionBitMask = categoryGround
+                //It should completely stop motion :Minor Error
+                self.Blazer.speed = 0
                 
                 //Flash background if contact is detected
                 self.removeActionForKey("flash")
@@ -241,8 +295,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.canRestart = true
                 })]), withKey: "flash")
                 
+                //Display the button and stuff to restart, show score
+                self.displayScore()
+                
             }
         }
+        
     }
 }
 

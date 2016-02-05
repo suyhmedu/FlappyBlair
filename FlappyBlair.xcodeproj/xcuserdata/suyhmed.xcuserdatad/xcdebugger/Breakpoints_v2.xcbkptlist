@@ -2,4 +2,85 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlappyBlair/GameScene.swift"
+            timestampString = "474007358.557743"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "touchesBegan(_:withEvent:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FlappyBlair/AppDelegate.swift"
+            timestampString = "474061316.761559"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Flappy_Blair.AppDelegate.__deallocating_deinit"
+                  moduleName = "Flappy Blair"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/suyaibrocky/Downloads/iOS%20App/FlappyBlair/FlappyBlair/AppDelegate.swift"
+                  timestampString = "474061316.782829"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Flappy_Blair.AppDelegate.init (Flappy_Blair.AppDelegate.Type)() -&gt; Flappy_Blair.AppDelegate"
+                  moduleName = "Flappy Blair"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/suyaibrocky/Downloads/iOS%20App/FlappyBlair/FlappyBlair/AppDelegate.swift"
+                  timestampString = "474061316.783128"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "Flappy Blair"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/suyaibrocky/Downloads/iOS%20App/FlappyBlair/FlappyBlair/AppDelegate.swift"
+                  timestampString = "474061316.783324"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

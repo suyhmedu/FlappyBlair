@@ -10,11 +10,16 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    //Score variables
+    //Score and Highscore variables
     var scoreLabelNode = SKLabelNode()
+    var scoreLabelNodeDisplay = SKLabelNode()
     var score = NSInteger()
     var moving:SKNode!
     var canRestart = false
+    var highScoreLabelNode = SKLabelNode()
+    var highScore = NSInteger()
+    var highScoreLabel = SKSpriteNode()
+    var scoreLabel = SKSpriteNode()
     
     var skyColor:SKColor!
     
@@ -33,7 +38,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver = SKSpriteNode()
     var playButton = SKSpriteNode()
     var leaderboard = SKSpriteNode()
-    var displayScoreBoard = SKSpriteNode()
+    var scoreBoard = SKSpriteNode()
+    
     
     //Blazer Animation
     var BlazerTextureAtlas = SKTextureAtlas()
@@ -116,6 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabelNode.text = String(score)
         self.addChild(scoreLabelNode)
         
+        //this stays here! This is what casued the first error of crashing the app
         self.addChild(gameOverPage)
     }
     
@@ -219,8 +226,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //This method will display the score once the game is over
     // TODO: Add Menu , Add Sounds, Add Music, Add Leaderboard, Add Ads, Get Money!!!
     func displayScore(){
-        //Play Button that runs restart method
         
+        scoreLabelNode.removeFromParent()
         
         //Show "Game Over"
         gameOver = SKSpriteNode(imageNamed: "gameOver")
@@ -230,10 +237,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOver.zPosition = 4
         gameOverPage.addChild(gameOver)
         
+        //scoreBoard
+        scoreBoard = SKSpriteNode(imageNamed: "scoreBoard")
+        scoreBoard.size = CGSize(width: 380, height: 200)
+        scoreBoard.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2 )
+        scoreBoard.physicsBody?.affectedByGravity = false
+        scoreBoard.physicsBody?.dynamic = false
+        scoreBoard.zPosition = 5
+        gameOverPage.addChild(scoreBoard)
         
-        //self.addChild(gameOverPage)
+        //Current scores
+        scoreLabel = SKSpriteNode(imageNamed: "scoreLabel")// "Score:" text label
+        scoreLabel.size = CGSize(width: 180, height: 80)
+        scoreLabel.position = CGPoint(x: -80 + self.frame.width / 2, y: 50 + self.frame.height / 2 )
+        scoreLabel.physicsBody?.affectedByGravity = false
+        scoreLabel.physicsBody?.dynamic = false
+        scoreLabel.zPosition = 6
+        gameOverPage.addChild(scoreLabel)
         
-        //Score Box - score & best score
+        scoreLabelNodeDisplay = SKLabelNode(fontNamed:"Chalkduster")
+        scoreLabelNodeDisplay.fontSize = 60
+        scoreLabelNodeDisplay.position = CGPoint(x: 80 + self.frame.width / 2, y: 30 + self.frame.size.height / 2)
+        scoreLabelNodeDisplay.zPosition = 100
+        scoreLabelNodeDisplay.text = String(score)
+        gameOverPage.addChild(scoreLabelNodeDisplay)
+        
+        //Highscore 
+        
+        let HighScoreDefault = NSUserDefaults.standardUserDefaults()
+        if(HighScoreDefault.valueForKey("best") != nil){
+        highScore = HighScoreDefault.valueForKey("best") as! NSInteger!
+        }
+        
+        highScoreLabel = SKSpriteNode(imageNamed: "highScoreLabel")// "Best:" text label
+        highScoreLabel.size = CGSize(width: 180, height: 80)
+        highScoreLabel.position = CGPoint(x: -80 + self.frame.width / 2, y: -50 + self.frame.height / 2 )
+        highScoreLabel.physicsBody?.affectedByGravity = false
+        highScoreLabel.physicsBody?.dynamic = false
+        highScoreLabel.zPosition = 6
+        gameOverPage.addChild(highScoreLabel)
+        
+        highScoreLabelNode = SKLabelNode(fontNamed:"Chalkduster")
+        highScoreLabelNode.fontSize = 60
+        highScoreLabelNode.position = CGPoint(x: 80 + self.frame.width / 2 , y: -80 + self.frame.size.height / 2)
+        highScoreLabelNode.zPosition = 100
+        highScoreLabelNode.text = String(highScore)
+        gameOverPage.addChild(highScoreLabelNode)
         
         //Leaderboard
         
@@ -263,6 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Reset score
         score = 0
         scoreLabelNode.text = String(score)
+        self.addChild(scoreLabelNode)
         
         // Restart animation
         moving.speed = 1
@@ -274,6 +324,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 score++
                 scoreLabelNode.text = String(score)
+                if(score > highScore){
+                    highScore = score
+                    highScoreLabelNode.text = String(score)
+                    
+                    let HighScoreDefault = NSUserDefaults.standardUserDefaults()
+                    HighScoreDefault.setValue(highScore, forKey: "best")
+                    HighScoreDefault.synchronize()
+                }
                 
                 // Add a little visual feedback for the score increment
                 scoreLabelNode.runAction(SKAction.sequence([
